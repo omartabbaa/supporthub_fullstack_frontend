@@ -73,9 +73,15 @@
     align-items: center;
     width: 100%;
     margin-bottom: 200px;
-    background-color:white;
+   
     padding: 50px;
 
+}
+
+.search-input {
+    width: 20%;
+    height: 40px;
+    border-radius: 10px;
 }
 
 

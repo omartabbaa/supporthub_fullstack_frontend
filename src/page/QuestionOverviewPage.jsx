@@ -1,15 +1,9 @@
-
-import React, { useState, useEffect, useMemo, useContext } from 'react';
-
-import './QuestionOverviewPage.css';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import Like from '../Components/assets/Button/Like.png';
 import axios from 'axios';
-import Fuse from 'fuse.js'; // Import Fuse.js
-
-
-
-
+import Fuse from 'fuse.js';
+import './QuestionOverviewPage.css';
+import Like from '../assets/Button/Like.png';
 
 const QuestionOverviewPage = () => {
   const [questionText, setQuestionText] = useState('');

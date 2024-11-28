@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './LandingPage.css';
-import image from '../Components/assets/Landingpage/HowCanIHelpImage.png';
-import Discord from '../Components/assets/socialmedia/Discord.png';
-import Youtube from '../Components/assets/socialmedia/Youtube.png';
-import Email from '../Components/assets/socialmedia/Email.png';
-import Admin from '../Components/assets/Landingpage/supporthub-departments.png';
-import GetUsers from '../Components/Lists/getUsers/GetUsers';
+import image from '../assets/Landingpage/HowCanIHelpImage.png';
+import Discord from '../assets/socialmedia/Discord.png';
+import Youtube from '../assets/socialmedia/Youtube.png';
+import Email from '../assets/socialmedia/Email.png';
+import Admin from '../assets/Landingpage/supporthub-departments.png';
+
 import { Link } from 'react-router-dom';
 
 const LandingPage = () => {

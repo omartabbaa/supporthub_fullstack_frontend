@@ -1,12 +1,12 @@
 import './navbar.css';
-import logo from '../../assets/Logo/navbarLogo.png';
+import logo from '../assets/Logo/navbarLogo.png';
 import { Link } from 'react-router-dom';
-import BusinessIcon from '../../assets/Button/navbar/BusinessIcon.png';
-import AdminIcon from '../../assets/Button/navbar/AdminIcon.png';
-import NotificationIcon from '../../assets/Button/navbar/NotificationIcon.png';
+import BusinessIcon from '../assets/Button/navbar/BusinessIcon.png';
+import AdminIcon from '../assets/Button/navbar/AdminIcon.png';
+import NotificationIcon from '../assets/Button/navbar/NotificationIcon.png';
 import { useState, useEffect, useRef } from 'react';
-import { useUserContext } from "../../../context/LoginContext";
-import axios from 'axios'; // Import axios
+import { useUserContext } from "../context/LoginContext";
+import axios from 'axios';
 
 const Navbar = () => {
     const { logout, isLogin, role, stateBusinessId } = useUserContext(); // Changed businessId to stateBusinessId

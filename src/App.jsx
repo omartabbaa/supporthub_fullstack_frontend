@@ -1,21 +1,17 @@
-import { useState } from 'react'
-import viteLogo from '/vite.svg'
-import './App.css'
 import { Routes, Route } from 'react-router-dom';
+import './App.css';
 import LandingPage from './page/LandingPage';
 import BusinessOverviewPage from './page/BusinessOverviewPage';
-import DepartmentProjectManagementPage from './page/Department&ProjectManagementPage';
+import DepartmentProjectManagementPage from './page/DepartmentProjectManagementPage';
 import QuestionOverviewPage from './page/QuestionOverviewPage';
 import QuestionDetailPage from './page/QuestionDetailPage';
-import AdmnDashboardPage from './page/AdmnDashboardPage';
+import AdminDashboardPage from './page/AdminDashboardPage';
 import NotFoundPage from './page/NotFoundPage';
-import Navbar from './Components/Sections/navbar/navbar';
+import Navbar from './Components/navbar';
 import Login from './page/Login';
 import SignUp from './page/SignUp';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <body>
       <Navbar />
@@ -27,12 +23,10 @@ function App() {
         <Route path="/question-detail/:questionId/:title/:question/:projectId" element={<QuestionDetailPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/admin-dashboard" element={<AdmnDashboardPage />} />
+        <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </body>
-
-
   )
 }
 
