@@ -1,12 +1,10 @@
-// MapComponent.js
-
-import "./MapComponent.css";
+import "./BusinessOverviewpage.css";
 import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Fuse from 'fuse.js'; // Import Fuse.js
+import Fuse from 'fuse.js';
 
-const MapComponent = () => {
+const BusinessOverviewPage = () => {
   const [businesses, setBusinesses] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredBusinesses, setFilteredBusinesses] = useState([]);
@@ -80,4 +78,4 @@ const MapComponent = () => {
   );
 };
 
-export default MapComponent;
+export default BusinessOverviewPage;

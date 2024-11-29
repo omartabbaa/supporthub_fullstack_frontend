@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import "./GridMapComponent.css";
-import Update from '../../assets/Button/sign-up-icon.png';
-import Delete from '../../assets/Button/delete.png';
-import Search from '../../Search/SearchDepartment';
+import "./DepartmentProjectManagementPage.css";
+import Update from '../assets/Button/sign-up-icon.png';
 import axios from 'axios';
-import { useUserContext } from "../../../context/LoginContext";
+import { useUserContext } from "../context/LoginContext";
 
-const GridMapComponent = () => {
+const DepartmentProjectManagementPage = () => {
   
   const { login, loading, role, stateBusinessId } = useUserContext();
   const { businessId, businessName } = useParams(); 
@@ -411,5 +409,5 @@ const GridMapComponent = () => {
   );
 };
 
-export default GridMapComponent;
+export default DepartmentProjectManagementPage;
 
