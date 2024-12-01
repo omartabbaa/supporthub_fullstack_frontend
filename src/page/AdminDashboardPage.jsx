@@ -4,6 +4,7 @@ import './AdminDashboardPage.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useUserContext } from "../context/LoginContext";
+import Fuse from 'fuse.js';
 
 const AdminDashboardPage = () => {
     const { token, stateBusinessId } = useUserContext();
@@ -23,6 +24,22 @@ const AdminDashboardPage = () => {
         canAnswer: false
     });
     const [stateAdmin, setStateAdmin] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    // Fuse.js options for fuzzy search
+    const fuseOptions = {
+        keys: ['name'],
+        threshold: 0.3
+    };
+
+    // Create fuse instance for searching experts
+    const fuse = new Fuse(experts, fuseOptions);
+
+    // Get filtered experts based on search
+    const getFilteredExperts = () => {
+        if (!searchQuery) return experts;
+        return fuse.search(searchQuery).map(result => result.item);
+    };
 
     // Fetch data on component mount and token change
     useEffect(() => {
@@ -227,6 +244,16 @@ const AdminDashboardPage = () => {
                 Grant targeted access to experts and agents for answering tickets related to specific products or entire product categories.
             </h2>
 
+            <div className="search-container">
+                <input
+                    type="text"
+                    placeholder="Search experts by name..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="expert-search-input"
+                />
+            </div>
+
             <div className="department-grid">
                 {departments.map((department, deptIndex) => (
                     <div key={department.departmentId} className="department-card">
@@ -243,13 +270,13 @@ const AdminDashboardPage = () => {
                         {openAccordionId === department.departmentId && (
                             <div className="experts-list">
                                 <ul className="experts-container">
-                                    {experts.map((expert, expertIndex) => {
+                                    {getFilteredExperts().map((expert, expertIndex) => {
                                         const departmentToggleId = createToggleId(department.departmentId, null, expert.userId);
 
                                         return (
                                             <li
                                                 key={expert.userId}
-                                                className={`expert-item ${toggleStates[departmentToggleId] ? "expert-item-active" : ""}`}
+                                                className={`expert-item`}
                                                 onMouseEnter={() => setHoveredExpertId(expert.userId)}
                                                 onMouseLeave={() => setHoveredExpertId(null)}
                                                 id="container"
@@ -288,7 +315,7 @@ const AdminDashboardPage = () => {
             </div>
 
    
-            <button className="add-permission-button" onClick={handleAddPermission}>Add Permission</button>
+           
             {isPermissionFormVisible && (
                 <div className="permission-form">
                     <h3>Add New Permission</h3>

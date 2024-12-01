@@ -8,7 +8,7 @@ import { useUserContext } from "../context/LoginContext";
 
 const QuestionDetailPage = () => {
   const { questionId, title, question, projectId } = useParams();
-  const { userId } = useUserContext();
+  const { userId,  } = useUserContext();
 
   
   // Decode the encoded URI components
