@@ -23,7 +23,7 @@ const QuestionDetailPage = () => {
   const [submitError, setSubmitError] = useState('');
   const [submitSuccess, setSubmitSuccess] = useState('');
   const [userPermission, setUserPermission] = useState([]);
- const[ canAnswerQuestion, setCanAnswerQuestion] = useState()
+  const[ canAnswerQuestion, setCanAnswerQuestion] = useState()
 
   // Log userId to ensure it's correct
   console.log('Current User ID:', userId);
@@ -128,8 +128,6 @@ const QuestionDetailPage = () => {
     console.log('Has Permission:', hasPermission);
     
    
-
-
     // Additional debug: list all userPermissions
     if (userPermissions.length === 0) {
       console.warn('No permissions found for the current user.');
@@ -172,9 +170,18 @@ const QuestionDetailPage = () => {
       setSubmitError('Error submitting answer.');
       console.error('Error submitting answer:', error);
     }
+  };
 
-
-
+  // Handle Delete Answer
+  const handleDeleteAnswer = async (answerId) => {
+    try {
+      await axios.delete(`http://localhost:8080/api/answers/${answerId}`);
+      setAnswers(answers.filter(answer => answer.answerId !== answerId));
+      setSubmitSuccess('Answer deleted successfully!');
+    } catch (error) {
+      console.error('Error deleting answer:', error);
+      setSubmitError('Failed to delete answer. Please try again.');
+    }
   };
 
   return (
@@ -194,6 +201,12 @@ const QuestionDetailPage = () => {
           answers.map((answerItem) => (
             <div key={answerItem.answerId} className="answer-item">
               <p>{answerItem.answerText}</p>
+              <button 
+                className="delete-answer-button" 
+                onClick={() => handleDeleteAnswer(answerItem.answerId)}
+              >
+                Delete Answer
+              </button>
             </div>
           ))
         ) : (

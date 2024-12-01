@@ -279,7 +279,7 @@ const DepartmentProjectManagementPage = () => {
                     <button className='DeleteProjectButton' onClick={() => deleteProject(project.projectId)}>X</button>
                   </div>}
 
-                  <Link to={`/question-overview/${department.departmentName}/${project.name}/${project.projectId}`}>
+                  <Link to={`/question-overview/${encodeURIComponent(department.departmentName)}/${encodeURIComponent(project.name)}/${project.projectId}`}>
                     <div className='image-Component'>
                       <img className='ProjectImage' src={project.image} alt={project.name} />
                     </div>
@@ -288,30 +288,51 @@ const DepartmentProjectManagementPage = () => {
                 </div>
               </div>
             ))}
-            {role === "ROLE_ADMIN" && isBussinessOwner === "yes" && <button className='AddProjectButton' onClick={() => {
-              setSelectedDepartmentId(department.id);
-              console.log("Setting department ID for project:", department.id);
-              setModalType('project');
-              setModalVisible(true);
-            }}>
-              <div className='AddProject'>+</div>
-            </button>}
+            {role === "ROLE_ADMIN" && isBussinessOwner === "yes" && (
+              <div className='ProjectContainerBox'>
+                <button className='AddProjectButton' onClick={() => {
+                  setSelectedDepartmentId(department.id);
+                  console.log("Setting department ID for project:", department.id);
+                  setModalType('project');
+                  setModalVisible(true);
+                }}>
+                  <div className='AddProject'>+</div>
+                </button>
+                <div className='projectDescription'>
+                  By adding a project you can manage your questions
+                </div>
+              </div>
+            )}
           </div>
         </div>
       ))}
+ 
+      {role === "ROLE_ADMIN" && isBussinessOwner === "yes" && (
+        <>
+       
+          <button 
+            className='AddDepartmentButton' 
+            onClick={() => {
+              setModalType('department');
+              setModalVisible(true);
+            }}
+          >
+            +
+          </button>
 
-      {role === "ROLE_ADMIN" && isBussinessOwner === "yes" && <button className='AddDepartmentButton' onClick={() => {
-        setModalType('department');
-        setModalVisible(true);
-      }}> + </button>
-      }
+          <div className='DepartmentDescription'>
+            By adding a Question category also referred to as department you can manage your projects
+          </div>
+        </>
+      )}
 
       {modalVisible && (
         <div className="modal">
           <div className="modal-content">
-            <span className="close" onClick={() => setModalVisible(false)}>&times;</span>
+            <span className="close" onClick={() => setModalVisible(false)}>x</span>
             {modalType === 'project' && (
               <div>
+                
                 <h2>Add New Project</h2>
                 <input
                   type="text"
@@ -336,7 +357,8 @@ const DepartmentProjectManagementPage = () => {
                   value={newProjectAverageResponseTime}
                   onChange={(e) => setNewProjectAverageResponseTime(e.target.value)}
                 />
-                {role === "ROLE_ADMIN" && isBussinessOwner === "yes" && <button onClick={() => addProject(selectedDepartmentId)}>Add Project</button>}
+                {role === "ROLE_ADMIN" && isBussinessOwner === "yes" && <button className='AddProjectButtonModal' onClick={() => addProject(selectedDepartmentId)}>Add Project</button>}
+               
               </div>
             )}
             {modalType === 'department' && (
@@ -399,7 +421,8 @@ const DepartmentProjectManagementPage = () => {
                   value={newDepartmentDescription}
                   onChange={(e) => setNewDepartmentDescription(e.target.value)}
                 />
-                <button onClick={() => updateDepartment(selectedDepartmentId)}>Update Department</button>
+               
+                <button className='UpdateDepartmentButtonModal' onClick={() => updateDepartment(selectedDepartmentId)}>Update Department</button>
               </div>
             )}
           </div>
