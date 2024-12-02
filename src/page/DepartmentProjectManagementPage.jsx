@@ -4,6 +4,8 @@ import "./DepartmentProjectManagementPage.css";
 import Update from '../assets/Button/sign-up-icon.png';
 import axios from 'axios';
 import { useUserContext } from "../context/LoginContext";
+import ProjectModal from '../Components/ProjectModal';
+import DepartmentModal from '../Components/DepartmentModal';
 
 const DepartmentProjectManagementPage = () => {
   
@@ -327,110 +329,67 @@ const DepartmentProjectManagementPage = () => {
       )}
 
       {modalVisible && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={() => setModalVisible(false)}>x</span>
-            {modalType === 'project' && (
-              <div>
-                
-                <h2>Add New Project</h2>
-                <input
-                  type="text"
-                  placeholder="Project Name"
-                  value={newProjectName}
-                  onChange={(e) => setNewProjectName(e.target.value)}
-                />
-                <textarea
-                  placeholder="Project Description"
-                  value={newProjectDescription}
-                  onChange={(e) => setNewProjectDescription(e.target.value)}
-                />
-                <input
-                  type="text"
-                  placeholder="Project Image URL"
-                  value={newProjectImage}
-                  onChange={(e) => setNewProjectImage(e.target.value)}
-                />
-                <input
-                  type="text"
-                  placeholder="Average Response Time"
-                  value={newProjectAverageResponseTime}
-                  onChange={(e) => setNewProjectAverageResponseTime(e.target.value)}
-                />
-                {role === "ROLE_ADMIN" && isBussinessOwner === "yes" && <button className='AddProjectButtonModal' onClick={() => addProject(selectedDepartmentId)}>Add Project</button>}
-               
-              </div>
-            )}
-            {modalType === 'department' && (
-              <div>
-                <h2>Add New Department</h2>
-                <input
-                  type="text"
-                  placeholder="Department Name"
-                  value={newDepartmentName}
-                  onChange={(e) => setNewDepartmentName(e.target.value)}
-                />
-                <textarea
-                  placeholder="Department Description"
-                  value={newDepartmentDescription}
-                  onChange={(e) => setNewDepartmentDescription(e.target.value)}
-                />
-                <button onClick={addDepartment}>Add Department</button>
-              </div>
-            )}
-            {modalType === 'updateProject' && (
-              <div>
-                <h2>Update Project</h2>
-                <input
-                  type="text"
-                  placeholder="Project Name"
-                  value={newProjectName}
-                  onChange={(e) => setNewProjectName(e.target.value)}
-                />
-                <textarea
-                  placeholder="Project Description"
-                  value={newProjectDescription}
-                  onChange={(e) => setNewProjectDescription(e.target.value)}
-                />
-                <input
-                  type="text"
-                  placeholder="Project Image URL"
-                  value={newProjectImage}
-                  onChange={(e) => setNewProjectImage(e.target.value)}
-                />
-                <input
-                  type="text"
-                  placeholder="Average Response Time"
-                  value={newProjectAverageResponseTime}
-                  onChange={(e) => setNewProjectAverageResponseTime(e.target.value)}
-                />
-                {role === "ROLE_ADMIN" && isBussinessOwner === "yes" && <button onClick={() => updateProject(selectedProjectId)}>Update Project</button>}
-              </div>
-            )}
-            {modalType === 'updateDepartment' && (
-              <div>
-                <h2>Update Department</h2>
-                <input
-                  type="text"
-                  placeholder="Department Name"
-                  value={newDepartmentName}
-                  onChange={(e) => setNewDepartmentName(e.target.value)}
-                />
-                <textarea
-                  placeholder="Department Description"
-                  value={newDepartmentDescription}
-                  onChange={(e) => setNewDepartmentDescription(e.target.value)}
-                />
-               
-                <button className='UpdateDepartmentButtonModal' onClick={() => updateDepartment(selectedDepartmentId)}>Update Department</button>
-              </div>
-            )}
-          </div>
-        </div>
+        <>
+          {modalType === 'project' && (
+            <ProjectModal
+              onClose={() => setModalVisible(false)}
+              onSubmit={() => addProject(selectedDepartmentId)}
+              projectName={newProjectName}
+              setProjectName={setNewProjectName}
+              projectDescription={newProjectDescription}
+              setProjectDescription={setNewProjectDescription}
+              projectImage={newProjectImage}
+              setProjectImage={setNewProjectImage}
+              averageResponseTime={newProjectAverageResponseTime}
+              setAverageResponseTime={setNewProjectAverageResponseTime}
+              isUpdate={false}
+              role={role}
+              isBussinessOwner={isBussinessOwner}
+            />
+          )}
+          {modalType === 'department' && (
+            <DepartmentModal
+              onClose={() => setModalVisible(false)}
+              onSubmit={addDepartment}
+              departmentName={newDepartmentName}
+              setDepartmentName={setNewDepartmentName}
+              departmentDescription={newDepartmentDescription}
+              setDepartmentDescription={setNewDepartmentDescription}
+              isUpdate={false}
+            />
+          )}
+          {modalType === 'updateProject' && (
+            <ProjectModal
+              onClose={() => setModalVisible(false)}
+              onSubmit={() => updateProject(selectedProjectId)}
+              projectName={newProjectName}
+              setProjectName={setNewProjectName}
+              projectDescription={newProjectDescription}
+              setProjectDescription={setNewProjectDescription}
+              projectImage={newProjectImage}
+              setProjectImage={setNewProjectImage}
+              averageResponseTime={newProjectAverageResponseTime}
+              setAverageResponseTime={setNewProjectAverageResponseTime}
+              isUpdate={true}
+              role={role}
+              isBussinessOwner={isBussinessOwner}
+            />
+          )}
+          {modalType === 'updateDepartment' && (
+            <DepartmentModal
+              onClose={() => setModalVisible(false)}
+              onSubmit={() => updateDepartment(selectedDepartmentId)}
+              departmentName={newDepartmentName}
+              setDepartmentName={setNewDepartmentName}
+              departmentDescription={newDepartmentDescription}
+              setDepartmentDescription={setNewDepartmentDescription}
+              isUpdate={true}
+            />
+          )}
+        </>
       )}
     </div>
   );
 };
 
 export default DepartmentProjectManagementPage;
-
