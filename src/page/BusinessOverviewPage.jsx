@@ -3,6 +3,7 @@ import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Fuse from 'fuse.js';
+import SearchBar from '../Components/Searchbar';
 
 const BusinessOverviewPage = () => {
   const [businesses, setBusinesses] = useState([]);
@@ -44,15 +45,11 @@ const BusinessOverviewPage = () => {
 
   return (
     <div className="mapContainer">
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search businesses..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="search-input"
-        />
-      </div>
+      <SearchBar
+        value={searchQuery}
+        onChange={setSearchQuery}
+        placeholder="Search businesses..."
+      />
 
       {filteredBusinesses.length > 0 ? (
         filteredBusinesses.map((business) => (
