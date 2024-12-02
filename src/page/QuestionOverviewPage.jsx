@@ -14,6 +14,8 @@ const QuestionOverviewPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
  
+  const decodedProject = decodeURIComponent(project);
+  const decodedDepartment = decodeURIComponent(department);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -134,8 +136,8 @@ const QuestionOverviewPage = () => {
 
   return (
     <div>
-      <h1 className="question-overview-title">{project}</h1>
-      <h2 className="question-overview-department">{department}</h2>
+      <h1 className="question-overview-title">{decodedProject}</h1>
+      <h2 className="question-overview-department">{decodedDepartment}</h2>
       <form className="form-question" onSubmit={handleSubmit}>
         <input
           value={title}
