@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useUserContext } from "../context/LoginContext";
 import Fuse from 'fuse.js';
+import SearchBar from '../Components/Searchbar';
 
 const AdminDashboardPage = () => {
     const { token, stateBusinessId } = useUserContext();
@@ -244,13 +245,11 @@ const AdminDashboardPage = () => {
                 Grant targeted access to experts and agents for answering tickets related to specific products or entire product categories.
             </h2>
 
-            <div className="search-container">
-                <input
-                    type="text"
-                    placeholder="Search experts by name..."
+            <div className="search-wrapper">
+                <SearchBar
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="expert-search-input"
+                    onChange={setSearchQuery}
+                    placeholder="Search experts by name..."
                 />
             </div>
 
