@@ -4,6 +4,7 @@ import axios from 'axios';
 import Fuse from 'fuse.js';
 import './QuestionOverviewPage.css';
 import Like from '../assets/Button/Like.png';
+import SearchBar from '../Components/Searchbar';
 
 const QuestionOverviewPage = () => {
   const [questionText, setQuestionText] = useState('');
@@ -156,16 +157,11 @@ const QuestionOverviewPage = () => {
         ></textarea>
         <button type="submit">Ask Question</button>
       </form>
-      <div className="search-container">
-        {/* Search input field */}
-        <input
-          type="text"
-          placeholder="Search questions..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input"
-        />
-      </div>
+      <SearchBar
+        value={searchTerm}
+        onChange={setSearchTerm}
+        placeholder="Search questions..."
+      />
       {isLoading ? (
         <p>Loading questions...</p>
       ) : (

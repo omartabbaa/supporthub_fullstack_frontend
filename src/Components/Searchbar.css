@@ -1,7 +1,9 @@
 .search-container {
-    margin: 20px;
+    margin: 20px auto; /* Changed to auto for horizontal centering */
     width: 100%;
     max-width: 500px;
+    display: flex;
+    justify-content: center;
   }
   
   .search-input {
