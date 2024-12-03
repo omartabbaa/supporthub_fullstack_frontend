@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useUserContext } from "../context/LoginContext";
 import Fuse from 'fuse.js';
 import SearchBar from '../Components/Searchbar';
+import Accordion from '../Components/Accordion'; // Import the Accordion component
 
 const AdminDashboardPage = () => {
     const { token, stateBusinessId } = useUserContext();
@@ -15,8 +16,6 @@ const AdminDashboardPage = () => {
     const [projects, setProjects] = useState([]);
     const [permissions, setPermissions] = useState([]);
     const [toggleStates, setToggleStates] = useState({});
-    // Updated state variable for open accordion
-    const [openAccordionId, setOpenAccordionId] = useState(null);
     const [isPermissionFormVisible, setIsPermissionFormVisible] = useState(false);
     const [formData, setFormData] = useState({
         selectedDepartment: '',
@@ -64,13 +63,10 @@ const AdminDashboardPage = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const filteredAdmin = response.data.filter(admin => admin.businessId === stateBusinessId);
-
             setStateAdmin(filteredAdmin);
-
-   
         } catch (error) {
             console.error('Error fetching Admin:', error);
-            throw error; // Propagate error to be caught in fetchAndSetData
+            throw error;
         }
     };
 
@@ -82,7 +78,6 @@ const AdminDashboardPage = () => {
             });
             const filteredDepartments = response.data.filter(dept => dept.businessId === stateBusinessId);
             setDepartments(filteredDepartments);
-  
         } catch (error) {
             console.error('Error fetching departments:', error);
         }
@@ -102,12 +97,9 @@ const AdminDashboardPage = () => {
             const filteredExperts = response.data.filter(expert => !adminUserIds.includes(expert.userId));
 
             setExperts(filteredExperts);
-
-            console.log('Fetched Experts:', response.data);
-            console.log('Filtered Experts:', filteredExperts);
         } catch (error) {
             console.error('Error fetching experts:', error);
-            throw error; // Propagate error to be caught in fetchAndSetData
+            throw error;
         }
     };
 
@@ -179,7 +171,6 @@ const AdminDashboardPage = () => {
                     projectId: projectId,
                     canAnswer: newCanAnswer
                 });
-                console.log(newCanAnswer, 'patch')
             } else {
                 const response = await axios.post('http://localhost:8080/api/permissions', {
                     userId: expert.userId,
@@ -188,17 +179,11 @@ const AdminDashboardPage = () => {
                     canAnswer: newCanAnswer
                 });
                 setPermissions([...permissions, response.data]);
-                console.log('post',newCanAnswer)
             }
         } catch (error) {
             console.error('Error updating permission:', error);
             setToggleStates(previousToggleStates);
         }
-    };
-
-    // Expand accordion
-    const expandAccordion = (departmentId) => {
-        setOpenAccordionId(prevId => (prevId === departmentId ? null : departmentId));
     };
 
     // Show permission form
@@ -255,66 +240,50 @@ const AdminDashboardPage = () => {
 
             <div className="department-grid">
                 {departments.map((department, deptIndex) => (
-                    <div key={department.departmentId} className="department-card">
-                        <div className="department-header">
-                            <h2 className="department-name">{department.departmentName}</h2>
-                            <button
-                                onClick={() => expandAccordion(department.departmentId)}
-                                className="accordion-experts-button"
-                            >
-                                {openAccordionId === department.departmentId ? '-' : '+'}
-                            </button>
-                        </div>
-                        
-                        {openAccordionId === department.departmentId && (
-                            <div className="experts-list">
-                                <ul className="experts-container">
-                                    {getFilteredExperts().map((expert, expertIndex) => {
-                                        const departmentToggleId = createToggleId(department.departmentId, null, expert.userId);
+                    <Accordion key={department.departmentId} title={department.departmentName}>
+                        <div className="experts-list">
+                            <ul className="experts-container">
+                                {getFilteredExperts().map((expert, expertIndex) => {
+                                    const departmentToggleId = createToggleId(department.departmentId, null, expert.userId);
 
-                                        return (
-                                            <li
-                                                key={expert.userId}
-                                                className={`expert-item`}
-                                                onMouseEnter={() => setHoveredExpertId(expert.userId)}
-                                                onMouseLeave={() => setHoveredExpertId(null)}
-                                                id="container"
-                                            >
-                                                <div className='expert-item-container'>
-                                                    <span className="expert-name">{expert.name}</span>
-                                         
+                                    return (
+                                        <li
+                                            key={expert.userId}
+                                            className="expert-item"
+                                            onMouseEnter={() => setHoveredExpertId(expert.userId)}
+                                            onMouseLeave={() => setHoveredExpertId(null)}
+                                        >
+                                            <div className='expert-item-container'>
+                                                <span className="expert-name">{expert.name}</span>
+                                            </div>
+
+                                            {hoveredExpertId === expert.userId && (
+                                                <div className='section_projects_container'>
+                                                    {projects.filter(project => project.departmentId === department.departmentId).map(project => {
+                                                        const projectToggleId = createToggleId(department.departmentId, project.projectId, expert.userId);
+                                                        return (
+                                                            <div key={project.projectId} className="project-permission">
+                                                                <span className="project-name">{project.name}</span>
+                                                                <button
+                                                                    className={`toggleButton ${toggleStates[projectToggleId] ? "active" : ""}`}
+                                                                    onClick={() => handleToggle(deptIndex, expertIndex, project.projectId)}
+                                                                >
+                                                                    <div className="toggle-circle"></div>
+                                                                </button>
+                                                            </div>
+                                                        );
+                                                    })}
                                                 </div>
-
-                                                {hoveredExpertId === expert.userId && (
-                                                    <div className='section_projects_container'>
-                                                        {projects.filter(project => project.departmentId === department.departmentId).map(project => {
-                                                            const projectToggleId = createToggleId(department.departmentId, project.projectId, expert.userId);
-                                                            return (
-                                                                <div key={project.projectId} className="project-permission">
-                                                                    <span className="project-name">{project.name}</span>
-                                                                    <button
-                                                                        className={`toggleButton ${toggleStates[projectToggleId] ? "active" : ""}`}
-                                                                        onClick={() => handleToggle(deptIndex, expertIndex, project.projectId)}
-                                                                    >
-                                                                        <div className="toggle-circle"></div>
-                                                                    </button>
-                                                                </div>
-                                                            );
-                                                        })}
-                                                    </div>
-                                                )}
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                            </div>
-                        )}
-                    </div>
+                                            )}
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    </Accordion>
                 ))}
             </div>
 
-   
-           
             {isPermissionFormVisible && (
                 <div className="permission-form">
                     <h3>Add New Permission</h3>
@@ -353,7 +322,7 @@ const AdminDashboardPage = () => {
             )}
         </div>
     );
-
 };
 
 export default AdminDashboardPage;
+
