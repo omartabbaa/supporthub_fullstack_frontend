@@ -1,3 +1,4 @@
+// DepartmentProjectManagementPage.js
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import "./DepartmentProjectManagementPage.css";
@@ -27,30 +28,30 @@ const DepartmentProjectManagementPage = () => {
   const [newProjectAverageResponseTime, setNewProjectAverageResponseTime] = useState('');
   const [newDepartmentName, setNewDepartmentName] = useState('');
   const [newDepartmentDescription, setNewDepartmentDescription] = useState('');
-  const [isBussinessOwner, setIsBussinessOwner] = useState('')
+  const [isBusinessOwner, setIsBusinessOwner] = useState('') // Corrected spelling
   
   useEffect(() => {
     fetchDepartments();
     fetchProjects();
     console.log('Fetched departments for businessId:', businessId, 'Role:', role);
-    isBussinessOwnerFunction()
+    isBusinessOwnerFunction()
   }, [businessId]); // Re-run effect when businessId changes
 
   useEffect(() => {
-    isBussinessOwnerFunction()
+    isBusinessOwnerFunction()
   },[])
 
-  const isBussinessOwnerFunction = () => {
+  const isBusinessOwnerFunction = () => { // Corrected function name
     console.log('Checking if user is business owner...');
     try {
         if (businessId == stateBusinessId) {
-            setIsBussinessOwner("yes");
+            setIsBusinessOwner("yes"); // Corrected spelling
         } else {
-            setIsBussinessOwner("no");
+            setIsBusinessOwner("no"); // Corrected spelling
         }
     } catch (error) {
         console.error('Error checking business owner status:', error);
-        setIsBussinessOwner("no"); // Default to no if there's an error
+        setIsBusinessOwner("no"); // Default to no if there's an error
     }
 }
 
@@ -69,8 +70,11 @@ const DepartmentProjectManagementPage = () => {
       }));
 
     
+    
 
       // Convert businessId from useParams to Number
+     
+
       const businessIdNumber = Number(businessId);
  
 
@@ -253,14 +257,14 @@ const DepartmentProjectManagementPage = () => {
     <div>
       {error && <div className="error-message">{error}</div>}
       <div className="DepartmentProjectManagementPageHeader">
-  <h1 className="DepartmentProjectManagementPageTitle">{businessName}</h1>
+<h1 className="DepartmentProjectManagementPageTitle">{businessName}</h1>
 </div>
 
       {departments.map((department, index) => (
         <div key={`dept-${department.id || index}`}>
           <div className='DepartmentHeader'>
 
-            {role === "ROLE_ADMIN" && isBussinessOwner === "yes" && <div className='DepartmentButtons'>
+            {role === "ROLE_ADMIN" && isBusinessOwner === "yes" && <div className='DepartmentButtons'>
               <button className='UpdateDepartmentButton' onClick={() => openUpdateDepartmentModal(department.id, department.departmentName)}>
                 <img className='UpdateImage' src={Update} alt="Update" />Update Department
               </button>
@@ -274,7 +278,7 @@ const DepartmentProjectManagementPage = () => {
               <div className='ProjectCardContainer' key={`proj-${project.projectId}`}>
                 <div className='ProjectCard'>
 
-                  {role === "ROLE_ADMIN" && isBussinessOwner === "yes" && <div className='ButtonsContainer'>
+                  {role === "ROLE_ADMIN" && isBusinessOwner === "yes" && <div className='ButtonsContainer'>
                     <button className='UpdateProjectButton' onClick={() => openUpdateProjectModal(department.id, project.projectId, project.name)}>
                       <img className='UpdateImage' src={Update} alt="Update" />
                     </button>
@@ -290,7 +294,7 @@ const DepartmentProjectManagementPage = () => {
                 </div>
               </div>
             ))}
-            {role === "ROLE_ADMIN" && isBussinessOwner === "yes" && (
+            {role === "ROLE_ADMIN" && isBusinessOwner === "yes" && (
               <div className='ProjectContainerBox'>
                 <button className='AddProjectButton' onClick={() => {
                   setSelectedDepartmentId(department.id);
@@ -309,7 +313,7 @@ const DepartmentProjectManagementPage = () => {
         </div>
       ))}
  
-      {role === "ROLE_ADMIN" && isBussinessOwner === "yes" && (
+      {role === "ROLE_ADMIN" && isBusinessOwner === "yes" && (
         <>
        
           <button 
@@ -344,7 +348,7 @@ const DepartmentProjectManagementPage = () => {
               setAverageResponseTime={setNewProjectAverageResponseTime}
               isUpdate={false}
               role={role}
-              isBussinessOwner={isBussinessOwner}
+              isBusinessOwner={isBusinessOwner} // Corrected prop name
             />
           )}
           {modalType === 'department' && (
@@ -372,7 +376,7 @@ const DepartmentProjectManagementPage = () => {
               setAverageResponseTime={setNewProjectAverageResponseTime}
               isUpdate={true}
               role={role}
-              isBussinessOwner={isBussinessOwner}
+              isBusinessOwner={isBusinessOwner} // Corrected prop name
             />
           )}
           {modalType === 'updateDepartment' && (

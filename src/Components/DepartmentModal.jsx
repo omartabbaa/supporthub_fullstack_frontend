@@ -1,4 +1,6 @@
+// DepartmentModal.js
 import React from 'react';
+import './Modal.css'; // Ensure Modal.css is correctly imported
 
 const DepartmentModal = ({
   onClose,
@@ -10,27 +12,42 @@ const DepartmentModal = ({
   isUpdate
 }) => {
   return (
-    <div className="modal">
+    <div className="modal-overlay">
       <div className="modal-content">
-        <span className="close" onClick={onClose}>x</span>
-        <h2>{isUpdate ? 'Update Department' : 'Add New Department'}</h2>
-        <input
-          type="text"
-          placeholder="Department Name"
-          value={departmentName}
-          onChange={(e) => setDepartmentName(e.target.value)}
-        />
-        <textarea
-          placeholder="Department Description"
-          value={departmentDescription}
-          onChange={(e) => setDepartmentDescription(e.target.value)}
-        />
-        <button 
-          className={isUpdate ? 'UpdateDepartmentButtonModal' : ''} 
-          onClick={onSubmit}
-        >
-          {isUpdate ? 'Update Department' : 'Add Department'}
+        <button className="close-button" onClick={onClose} aria-label="Close Modal">
+          &times;
         </button>
+        <h2 className="modal-title">{isUpdate ? 'Update Department' : 'Add New Department'}</h2>
+        <form className="modal-form" onSubmit={onSubmit}>
+          <div className="form-group">
+            <label htmlFor="departmentName">Department Name</label>
+            <input
+              id="departmentName"
+              type="text"
+              placeholder="Enter department name"
+              value={departmentName}
+              onChange={(e) => setDepartmentName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="departmentDescription">Department Description</label>
+            <textarea
+              id="departmentDescription"
+              placeholder="Enter department description"
+              value={departmentDescription}
+              onChange={(e) => setDepartmentDescription(e.target.value)}
+              rows="3"
+              required
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            className={`modal-submit-button ${isUpdate ? 'update' : 'add'}`}
+          >
+            {isUpdate ? 'Update Department' : 'Add Department'}
+          </button>
+        </form>
       </div>
     </div>
   );
