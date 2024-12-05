@@ -4,13 +4,12 @@ import { useState, useEffect } from 'react';
 import './QuestionDetailPage.css';
 import axios from 'axios';
 import { useUserContext } from "../context/LoginContext";
-
+import TextArea from '../Components/TextArea';
 
 const QuestionDetailPage = () => {
   const { questionId, title, question, projectId } = useParams();
-  const { userId,  } = useUserContext();
+  const { userId } = useUserContext();
 
-  
   // Decode the encoded URI components
   const decodedTitle = decodeURIComponent(title);
   const decodedQuestion = decodeURIComponent(question);
@@ -23,7 +22,7 @@ const QuestionDetailPage = () => {
   const [submitError, setSubmitError] = useState('');
   const [submitSuccess, setSubmitSuccess] = useState('');
   const [userPermission, setUserPermission] = useState([]);
-  const[ canAnswerQuestion, setCanAnswerQuestion] = useState()
+  const [canAnswerQuestion, setCanAnswerQuestion] = useState();
 
   // Log userId to ensure it's correct
   console.log('Current User ID:', userId);
@@ -97,7 +96,6 @@ const QuestionDetailPage = () => {
 
   // Handle Submit
   const handleSubmit = async (e) => {
-   
     e.preventDefault();
     setSubmitError('');
     setSubmitSuccess('');
@@ -126,8 +124,7 @@ const QuestionDetailPage = () => {
     // Check if any of the user's permissions match the projectId
     const hasPermission = userPermissions.find(p => p.projectId === projectIdNumber);
     console.log('Has Permission:', hasPermission);
-    
-   
+
     // Additional debug: list all userPermissions
     if (userPermissions.length === 0) {
       console.warn('No permissions found for the current user.');
@@ -216,7 +213,7 @@ const QuestionDetailPage = () => {
 
       <form className="question-answer-form" onSubmit={handleSubmit}>
         <h2>Submit Your Answer</h2>
-        <textarea
+        <TextArea
           className="question-answer-input"
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}

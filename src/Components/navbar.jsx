@@ -7,6 +7,7 @@ import NotificationIcon from '../assets/Button/navbar/NotificationIcon.png';
 import { useState, useEffect, useRef } from 'react';
 import { useUserContext } from "../context/LoginContext";
 import axios from 'axios';
+import ProfileDropdown from './ProfileDropdown';
 
 const Navbar = () => {
     const { logout, isLogin, role, stateBusinessId } = useUserContext(); // Changed businessId to stateBusinessId
@@ -15,7 +16,6 @@ const Navbar = () => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [businessName, setBusinessName] = useState('');
     const notificationRef = useRef(null);
-    const profileRef = useRef(null);
 
     const toggleNotification = () => setIsNotificationOpen(prev => !prev);
     const toggleProfile = () => setIsProfileOpen(prev => !prev);
@@ -24,9 +24,7 @@ const Navbar = () => {
         if (notificationRef.current && !notificationRef.current.contains(event.target)) {
             setIsNotificationOpen(false);
         }
-        if (profileRef.current && !profileRef.current.contains(event.target)) {
-            setIsProfileOpen(false);
-        }
+        setIsProfileOpen(false);
     };
 
     const handleLogout = () => logout();
@@ -105,22 +103,13 @@ const Navbar = () => {
                     </div>
 
                     {/* Profile Dropdown */}
-                    <div className='dropdown-container' ref={profileRef}>
-                        <div onClick={toggleProfile} className='profile'></div>
-                        {isProfileOpen && (
-                            <div className='profile-dropdown'>
-                                <h3>Profile</h3>
-                                <ul>
-                                    <Link to="/signup"><li>Signup</li></Link>
-                                    {isLogin ? (
-                                        <button onClick={handleLogout}>Logout</button>
-                                    ) : (
-                                        <Link to="/login"><li>Login</li></Link>
-                                    )}
-                                </ul>
-                            </div>
-                        )}
-                    </div>
+                    <ProfileDropdown 
+                        isOpen={isProfileOpen}
+                        onToggle={toggleProfile}
+                        onClose={() => setIsProfileOpen(false)}
+                        isLogin={isLogin}
+                        onLogout={handleLogout}
+                    />
                 </div>
             </div>
         </div>

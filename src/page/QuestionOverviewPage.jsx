@@ -6,6 +6,7 @@ import './QuestionOverviewPage.css';
 import Like from '../assets/Button/Like.png';
 import SearchBar from '../Components/Searchbar';
 import TextArea from '../Components/TextArea';
+import TextInput from '../Components/TextInput';
 
 const QuestionOverviewPage = () => {
   const [questionText, setQuestionText] = useState('');
@@ -141,13 +142,11 @@ const QuestionOverviewPage = () => {
       <h1 className="question-overview-title">{decodedProject}</h1>
       <h2 className="question-overview-department">{decodedDepartment}</h2>
       <form className="form-question" onSubmit={handleSubmit}>
-        <input
+        <TextInput
           value={title}
           onChange={(event) => setTitle(event.target.value)}
-          required
-          type="text"
           placeholder='Enter question title'
-          className='input-question-title'
+          required
         />
         <TextArea
           value={questionText}
