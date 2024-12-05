@@ -5,6 +5,7 @@ import Fuse from 'fuse.js';
 import './QuestionOverviewPage.css';
 import Like from '../assets/Button/Like.png';
 import SearchBar from '../Components/Searchbar';
+import TextArea from '../Components/TextArea';
 
 const QuestionOverviewPage = () => {
   const [questionText, setQuestionText] = useState('');
@@ -148,13 +149,12 @@ const QuestionOverviewPage = () => {
           placeholder='Enter question title'
           className='input-question-title'
         />
-        <textarea
-          required
+        <TextArea
           value={questionText}
           onChange={(event) => setQuestionText(event.target.value)}
           placeholder="Ask a question..."
-          className="textarea-question"
-        ></textarea>
+          required
+        />
         <button type="submit">Ask Question</button>
       </form>
       <SearchBar
