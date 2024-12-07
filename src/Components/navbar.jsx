@@ -16,6 +16,7 @@ const Navbar = () => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [businessName, setBusinessName] = useState('');
     const notificationRef = useRef(null);
+    const profileRef = useRef(null);
 
     const toggleNotification = () => setIsNotificationOpen(prev => !prev);
     const toggleProfile = () => setIsProfileOpen(prev => !prev);
@@ -24,7 +25,9 @@ const Navbar = () => {
         if (notificationRef.current && !notificationRef.current.contains(event.target)) {
             setIsNotificationOpen(false);
         }
-        setIsProfileOpen(false);
+        if (profileRef.current && !profileRef.current.contains(event.target)) {
+            setIsProfileOpen(false);
+        }
     };
 
     const handleLogout = () => logout();
@@ -103,7 +106,7 @@ const Navbar = () => {
                     </div>
 
                     {/* Profile Dropdown */}
-                    <ProfileDropdown 
+                    <ProfileDropdown
                         isOpen={isProfileOpen}
                         onToggle={toggleProfile}
                         onClose={() => setIsProfileOpen(false)}
