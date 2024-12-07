@@ -1,12 +1,13 @@
+// QuestionOverviewPage.js
 import React, { useState, useEffect, useMemo } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Fuse from 'fuse.js';
 import './QuestionOverviewPage.css';
-import Like from '../assets/Button/Like.png';
 import SearchBar from '../Components/Searchbar';
 import TextArea from '../Components/TextArea';
 import TextInput from '../Components/TextInput';
+import QuestionList from '../Components/QuestionList';
 
 const QuestionOverviewPage = () => {
   const [questionText, setQuestionText] = useState('');
@@ -16,7 +17,7 @@ const QuestionOverviewPage = () => {
   const { project, department, projectId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
- 
+
   const decodedProject = decodeURIComponent(project);
   const decodedDepartment = decodeURIComponent(department);
 
@@ -36,11 +37,10 @@ const QuestionOverviewPage = () => {
           status: question.status,
           projectId: question.projectId,
           createdAt: question.createdAt,
-          likes: question.likes || 0, // Get the likes count
+          likes: question.likes || 0,
         }));
         
         setQuestions(questionsData);
-        console.log("Questions fetched and filtered for projectId:", projectId);
       } catch (error) {
         console.error('Error fetching questions:', error);
         setError('Failed to fetch questions. Please try again later.');
@@ -58,7 +58,7 @@ const QuestionOverviewPage = () => {
   const fuse = useMemo(() => {
     const options = {
       keys: ['title', 'question'],
-      threshold: 0.3, // Adjust threshold for sensitivity
+      threshold: 0.3,
     };
     return new Fuse(questions, options);
   }, [questions]);
@@ -71,7 +71,7 @@ const QuestionOverviewPage = () => {
       const results = fuse.search(searchTerm);
       return results.map(result => result.item);
     }
-  }, [fuse, searchTerm]);
+  }, [fuse, searchTerm, questions]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -90,7 +90,7 @@ const QuestionOverviewPage = () => {
           status: response.data.status,
           projectId: response.data.projectId,
           createdAt: response.data.createdAt,
-          likes: 0, // Initialize likes to 0
+          likes: 0,
         };
         setQuestions(prevQuestions => [...prevQuestions, newQuestion]);
         setTitle('');
@@ -107,8 +107,7 @@ const QuestionOverviewPage = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8080/api/questions/${id}`);
-      setQuestions(questions.filter(question => question.id !== id));
-      console.log("Question deleted");
+      setQuestions(prevQuestions => prevQuestions.filter(question => question.id !== id));
     } catch (error) {
       console.error('Error deleting question:', error);
       setError('Failed to delete question. Please try again.');
@@ -164,38 +163,11 @@ const QuestionOverviewPage = () => {
       {isLoading ? (
         <p>Loading questions...</p>
       ) : (
-        <div className="question-overview-container">
-          {filteredQuestions.map((question) => (
-            <div key={question.id} className='Question-Card-Container'>
-              <div className='question-overview-item' >
-                <div className='Question-Title-delete-Button-Container'>
-                  <h3>{question.title}</h3>
-                  <button className='Delete-Button' onClick={(event) => {
-                    event.preventDefault();
-                    handleDelete(question.id);
-                  }}>X</button>
-                </div>
-                <div className='Question-Likes-Container'>
-                  <p>{new Date(question.createdAt).toLocaleString()}</p>
-                  <div className='Question-Likes-Button-Container'>
-                    <button className='Like-Button' onClick={(event) => {
-                      event.preventDefault();
-                      handleLike(question.id);
-                    }}>
-                      <img className='Like-Button' src={Like} alt="Like" />
-                    </button>
-                    <p>{question.likes}</p>
-                  </div>
-                </div>
-              </div>
-              <Link
-                to={`/question-detail/${question.id}/${encodeURIComponent(question.title)}/${encodeURIComponent(question.question)}/${encodeURIComponent(question.projectId)}`}
-              >
-                View Details
-              </Link>
-            </div>
-          ))}
-        </div>
+        <QuestionList 
+          questions={filteredQuestions}
+          onDelete={handleDelete}
+          onLike={handleLike}
+        />
       )}
       {error && <p className="error-message">{error}</p>}
     </div>
