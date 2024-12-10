@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './BusinessList.css';
 
 const BusinessList = ({ businesses }) => {
   return (
@@ -11,9 +12,13 @@ const BusinessList = ({ businesses }) => {
             key={business.businessId}
           >
             <div className="BusinessCard">
-              <div className="image">
-                {/* Placeholder for business image or logo */}
-              </div>
+            
+                <img 
+                  src={business.logo} 
+                  alt={`${business.name} logo`}
+                  className="image"
+                />
+             
               <div className="textContainer">
                 <div className="Title">{business.name}</div>
                 <div className="texting">{business.description}</div>
