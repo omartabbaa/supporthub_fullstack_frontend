@@ -10,13 +10,13 @@ const ProfileDropdown = ({ isOpen, onToggle, onClose, isLogin, onLogout }) => {
             <div onClick={onToggle} className='profile'></div>
             {isOpen && (
                 <div className='profile-dropdown'>
-                    <h3>Profile</h3>
+                    
                     <ul>
-                        <Link to="/signup"><li>Signup</li></Link>
+                        <Link className='signup-link' to="/signup"><button className='signup-button-profile'>Signup</button></Link>
                         {isLogin ? (
-                            <button onClick={onLogout}>Logout</button>
+                            <button className='logout-button-profile' onClick={onLogout}>Logout</button>
                         ) : (
-                            <Link to="/login"><li>Login</li></Link>
+                            <Link className='login-link' to="/login"><li>Login</li></Link>
                         )}
                     </ul>
                 </div>

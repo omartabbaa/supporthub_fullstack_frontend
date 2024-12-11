@@ -12,3 +12,32 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 }
+
+
+.logout-button-profile {
+    background-color: #f7f6f6;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: none;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.signup-button-profile {
+    background-color: #f7f6f6;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: none;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.profile-dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
