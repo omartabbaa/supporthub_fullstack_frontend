@@ -1,0 +1,14 @@
+/* Add mobile-specific styles */
+@media (max-width: 730px) {
+    .profile-dropdown {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 100%;
+    }
+
+    .profile-dropdown-content {
+        width: 100%;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+}

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useRef } from 'react';
+import './ProfileDropdown.css';
 
 const ProfileDropdown = ({ isOpen, onToggle, onClose, isLogin, onLogout }) => {
     const dropdownRef = useRef(null);
