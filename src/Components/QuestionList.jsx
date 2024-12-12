@@ -22,9 +22,11 @@ const QuestionList = ({ questions, onDelete, onLike }) => {
               </button>
             </div>
             <div className='Question-Likes-Container'>
+            {/*     
               <p>{new Date(question.createdAt).toLocaleString()}</p>
-              <div className='Question-Likes-Button-Container'>
-                <button 
+               */}
+        <div className='Question-Likes-Button-Container'>
+                {/*      <button 
                   className='Like-Button' 
                   onClick={(event) => {
                     event.preventDefault();
@@ -32,8 +34,9 @@ const QuestionList = ({ questions, onDelete, onLike }) => {
                   }}
                 >
                   <img className='Like-Button' src={Like} alt="Like" />
-                </button>
-                <p>{question.likes}</p>
+                </button>  <p>{question.likes}</p>*/}
+           
+                
               </div>
             </div>
           </div>
