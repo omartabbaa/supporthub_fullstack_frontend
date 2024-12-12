@@ -112,7 +112,7 @@ const MobileNavbar = () => {
                     )}
 
                     {/* Notification Dropdown */}
-                    <div className='mn-navbar__dropdown-container' ref={notificationRef}>
+                    {/**    <div className='mn-navbar__dropdown-container' ref={notificationRef}>
                         <button 
                             className='mn-navbar__dropdown-button' 
                             onClick={toggleNotification} 
@@ -136,7 +136,8 @@ const MobileNavbar = () => {
                                 </ul>
                             </div>
                         )}
-                    </div>
+                    </div>*/}
+                 
 
                     {/* Profile Dropdown */}
                     <div className="mn-navbar__profile-dropdown-container" ref={profileRef}>

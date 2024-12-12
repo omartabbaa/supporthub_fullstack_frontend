@@ -84,9 +84,8 @@ const DesktopNavbar = () => {
                             <img className='admin-icon' src={AdminIcon} alt="AdminIcon" />
                         </Link>
                     )}
-                    
-                    {/* Notification Dropdown */}
-                    <div className='dropdown-container' ref={notificationRef}>
+                    {
+                        /* <div className='dropdown-container' ref={notificationRef}>
                         <img
                             onClick={toggleNotification}
                             className='notification-icon'
@@ -103,7 +102,10 @@ const DesktopNavbar = () => {
                                 </ul>
                             </div>
                         )}
-                    </div>
+                    </div>*/
+                    }
+                    {/* Notification Dropdown */}
+                   
 
                     {/* Profile Dropdown */}
                     <ProfileDropdown
