@@ -74,6 +74,7 @@ const DepartmentProjectManagementPage = () => {
       }
 
       const filteredDepartments = departmentsData.filter(department => department.businessId === businessIdNumber);
+      console.log('Filtered Departments:', filteredDepartments);
       setDepartments(filteredDepartments);
     } catch (error) {
       console.error('Error fetching departments:', error);
@@ -239,19 +240,30 @@ const DepartmentProjectManagementPage = () => {
     <div>
       {error && <div className="error-message">{error}</div>}
 
-      <DepartmentProjectsGrid
-        departments={departments}
-        projects={projects}
-        role={role}
-        isBusinessOwner={isBusinessOwner}
-        onOpenUpdateDepartmentModal={openUpdateDepartmentModal}
-        onDeleteDepartment={deleteDepartment}
-        onOpenUpdateProjectModal={openUpdateProjectModal}
-        onDeleteProject={deleteProject}
-        onOpenAddProjectModal={openAddProjectModal}
-        onOpenAddDepartmentModal={openAddDepartmentModal}
-        businessName={businessName}
-      />
+      {Array.isArray(departments) && departments.length === 0 && (
+        <div style={{ textAlign: 'center', padding: '20px', margin: '50px' }}>
+          <h2>No departments have been added to {businessName}</h2>
+          {(role === 'ADMIN' || isBusinessOwner === 'yes') && (
+            <button onClick={openAddDepartmentModal}>Add Department</button>
+          )}
+        </div>
+      )}
+
+      {Array.isArray(departments) && departments.length > 0 && (
+        <DepartmentProjectsGrid
+          departments={departments}
+          projects={projects}
+          role={role}
+          isBusinessOwner={isBusinessOwner}
+          onOpenUpdateDepartmentModal={openUpdateDepartmentModal}
+          onDeleteDepartment={deleteDepartment}
+          onOpenUpdateProjectModal={openUpdateProjectModal}
+          onDeleteProject={deleteProject}
+          onOpenAddProjectModal={openAddProjectModal}
+          onOpenAddDepartmentModal={openAddDepartmentModal}
+          businessName={businessName}
+        />
+      )}
 
       {modalVisible && (
         <>
