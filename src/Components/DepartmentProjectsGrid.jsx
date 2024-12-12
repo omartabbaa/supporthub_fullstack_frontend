@@ -75,6 +75,11 @@ const DepartmentProjectsGrid = ({
                   </div>
                 </div>
             ))}
+            {projects.filter(project => project.departmentId === department.id).length === 0 && (
+              <div className='NoProjectsMessage'>
+                No projects have been added to this department yet.
+              </div>
+            )}
             {role === "ROLE_ADMIN" && isBusinessOwner === "yes" && (
               <div className='ProjectContainerBox'>
                 <button 
