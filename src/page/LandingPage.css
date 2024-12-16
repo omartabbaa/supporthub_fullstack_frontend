@@ -94,10 +94,11 @@ text-decoration: none;
 
 
 .main-image {
-    width: 30%;
-    height: 50%;
+    width: 50%;
+    height: 70%;
     margin-top: 100px;
     margin-left: 100px;
+    margin-bottom: 100px;
     background-color: #d0ced2;
     
 }

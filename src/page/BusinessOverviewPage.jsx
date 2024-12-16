@@ -1,8 +1,9 @@
 import "./BusinessOverviewpage.css";
 import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import Fuse from 'fuse.js';
+import SearchBar from '../Components/Searchbar';
+import BusinessList from '../Components/BusinessList';
 
 const BusinessOverviewPage = () => {
   const [businesses, setBusinesses] = useState([]);
@@ -21,18 +22,16 @@ const BusinessOverviewPage = () => {
       });
   }, []);
 
-
   // Set up Fuse.js with options
   const fuse = useMemo(() => {
     const options = {
-      keys: ['name', 'description'], // Fields to search in
-      threshold: 0.3,                // Adjust threshold for sensitivity (0.0 = exact match, 1.0 = match anything)
+      keys: ['name', 'description'], 
+      threshold: 0.3,
       includeScore: true,            
     };
     return new Fuse(businesses, options);
   }, [businesses]);
 
- 
   useEffect(() => {
     if (!searchQuery) {
       setFilteredBusinesses(businesses);
@@ -44,36 +43,14 @@ const BusinessOverviewPage = () => {
 
   return (
     <div className="mapContainer">
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search businesses..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="search-input"
-        />
-      </div>
+      <SearchBar
+        value={searchQuery}
+        onChange={setSearchQuery}
+        placeholder="Search businesses..."
+      />
 
-      {filteredBusinesses.length > 0 ? (
-        filteredBusinesses.map((business) => (
-          <Link 
-            to={`/department-project-management/${business.businessId}/${business.name}`} 
-            key={business.businessId}
-          >
-            <div className="BusinessCard">
-              <div className="image">
-      
-              </div>
-              <div className="textContainer">
-                <div className="Title">{business.name}</div>
-                <div className="texting">test</div>
-              </div>
-            </div>
-          </Link>
-        ))
-      ) : (
-        <p>No businesses found matching your search.</p>
-      )}
+      {/* Use the BusinessList component here */}
+      <BusinessList businesses={filteredBusinesses} />
     </div>
   );
 };

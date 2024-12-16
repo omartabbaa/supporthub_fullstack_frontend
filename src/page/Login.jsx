@@ -2,15 +2,25 @@ import React, { useState } from 'react';
 import './Login.css';
 import axios from "axios";
 import { useUserContext } from "../context/LoginContext";
-
+import { useEffect } from 'react';
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { login, loading } = useUserContext();
+    const { login, loading , token} = useUserContext();
     const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
+
+    useEffect(() => {
+        if (token) {
+            setSuccessMessage("Login successful! Welcome back!");
+            // Clear any previous errors
+            setError(null);
+        }
+    }, [token]);
 
     const loginNow = async () => {
         setError(null); // Clear previous errors
+        setSuccessMessage(null); // Clear previous success message
 
         // Validate if fields are empty
         if (!username) {
@@ -32,7 +42,7 @@ const Login = () => {
 
             // Adjust token retrieval based on backend response
             login(response.data.token || response.data.jwt); 
-
+            
         } catch (error) {
             // Check the error response to identify the issue
             if (error.response) {
@@ -47,7 +57,9 @@ const Login = () => {
                 // If no response, it’s likely a network or system failure
                 setError("System error. Please try again later.");
             }
-
+            useEffect(() => {
+                console.log("loginnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn", token)
+            }, [])
             // Log full error for debugging
             console.error("Login failed:", error.response?.data || error.message);
         }
@@ -89,6 +101,9 @@ const Login = () => {
                     >
                         {loading ? 'Logging in...' : 'Login'}
                     </button>
+                    
+                    {/* Success message */}
+                    {successMessage && <p className="success-message" style={{ color: 'green' }}>{successMessage}</p>}
                     
                     {/* Error message */}
                     {error && <p className="error-message">{error}</p>}

@@ -87,7 +87,7 @@
     margin-bottom: 20px;
     width: 100%;
     padding: 15px;
-    border: 3px solid #d1fae1;
+    border: none;
     border-radius: 10px;
     resize: vertical;
     font-size: 16px;
@@ -95,6 +95,11 @@
     color: #333;
     background-color: #ffffff;
     box-sizing: border-box;
+}
+
+.input-question-title:focus {
+    outline: none
+    
 }
 
 .question-overview-container {
