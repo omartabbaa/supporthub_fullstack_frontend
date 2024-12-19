@@ -11,6 +11,7 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [description, setDescription] = useState('');
     const [logo, setLogo] = useState('');
+    const [signUpSuccess, setSignUpSuccess] = useState(false);
 
     const handleSignUp = async (e) => {
         e.preventDefault();
@@ -42,9 +43,11 @@ const SignUp = () => {
             });
 
             console.log('User Created Response:', response.data);
+            setSignUpSuccess(true);
             alert('Sign up successful!');
             resetForm();
         } catch (error) {
+            setSignUpSuccess(false);
             console.error('Error during sign up:', error);
             const errorMessage = error.response?.data?.message || 'An unexpected error occurred during sign up. Please try again.';
             alert(`Error: ${errorMessage}`);
@@ -60,6 +63,7 @@ const SignUp = () => {
         setConfirmPassword('');
         setDescription('');
         setLogo('');
+        setSignUpSuccess(false);
     };
 
     return (
@@ -139,6 +143,11 @@ const SignUp = () => {
                     />
                     <button type="submit" className="signup-button">Sign Up</button>
                 </form>
+                {signUpSuccess && (
+                    <p className="signup-success-message">
+                        Sign up successful! You can now log in with your credentials.
+                    </p>
+                )}
             </div>
         </div>
     );

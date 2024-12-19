@@ -7,15 +7,9 @@ import Email from '../assets/socialmedia/Email.png';
 import Admin from '../assets/Landingpage/supporthub-departments.png';
 
 import { Link } from 'react-router-dom';
+import Accordion from '../Components/Accordion';
 
 const LandingPage = () => {
-    // Start with the first item open by default (index 0)
-    const [activeIndex, setActiveIndex] = useState(0);
-
-    const toggleAccordion = (index) => {
-        setActiveIndex(index);
-    };
-
     return (
         <div className="landing-page">
             <header className="landing-page-header">
@@ -38,35 +32,24 @@ const LandingPage = () => {
                 <div className="main-container">
                     <div className="accordion-container">
                         <h2 className="accordion-title">Everything in One Hub</h2>
-                        {[
-                            {
-                                title: "Question Management",
-                                content: "SupportHub provides a platform for real-time question management, allowing you to efficiently handle and respond to inquiries as they come in."
-                            },
-                            {
-                                title: "Admin has access to Permissions & Control.",
-                                content: "Manage access and control with our robust permissions system, ensuring the right people have the right level of access to your support hub."
-                            },
-                          
-                            {
-                                title: "Centralized Management",
-                                content: "Manage all your departments, projects, and team members through a single, easy-to-use interface. SupportHub brings your team together in one platform."
-                            }
-                        ].map((item, index) => (
-                            <div className="accordion-item" key={index}>
-                                <h3 
-                                    className="accordion-item-title" 
-                                    onClick={() => toggleAccordion(index)}
-                                >
-                                    {item.title}
-                                </h3>
-                                {activeIndex === index && <p className="accordion-item-content">{item.content}</p>}
-                            </div>
-                        ))}
+                        
+                        <Accordion title="Question Management">
+                            <p>SupportHub provides a platform for real-time question management, 
+                            allowing you to efficiently handle and respond to inquiries as they come in.</p>
+                        </Accordion>
+
+                        <Accordion title="Admin has access to Permissions & Control">
+                            <p>Manage access and control with our robust permissions system, 
+                            ensuring the right people have the right level of access to your support hub.</p>
+                        </Accordion>
+
+                        <Accordion title="Centralized Management">
+                            <p>Manage all your departments, projects, and team members through a single, 
+                            easy-to-use interface. SupportHub brings your team together in one platform.</p>
+                        </Accordion>
                     </div>
                     <img src={Admin} alt="Support Hub Features" className="main-image" />
                 </div>
-               
             </main>
 
             <footer className="landing-page-footer">
